@@ -15,6 +15,8 @@ public class Window {
     private String title;
     private long glfwWindow;
 
+    private float r,g,b,a;
+
 //    Singleton instance
     public static Window window = null;
 //  Private cause ion any  anyone else to call this class
@@ -22,6 +24,10 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Contra!";
+        r=1;
+        g=1;
+        b=1;
+        a=1;
     }
 
     public static Window get(){
@@ -76,6 +82,8 @@ public class Window {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
 
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
 //      Make the openGl context current
         glfwMakeContextCurrent(glfwWindow);
 
@@ -97,10 +105,9 @@ public class Window {
             glfwPollEvents();
 
 //          Sets the color in buffer
-            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            glClearColor(r,g,b,a);
 //          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
-
             glfwSwapBuffers(glfwWindow);
         }
     }
