@@ -3,6 +3,9 @@ package jade;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import util.Time;
+
+import java.util.Currency;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -10,15 +13,20 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-    private int width;
-    private int height;
-    private String title;
+    private final int width;
+    private final int height;
+    private final String title;
     private long glfwWindow;
 
-    private float r,g,b,a;
+    public float r;
+    public float g;
+    public float b;
+    public float a;
 
 //    Singleton instance
     public static Window window = null;
+    private static Scene CurrentScene;
+
 //  Private cause ion any  anyone else to call this class
     private Window(){
         this.width = 1920;
@@ -28,6 +36,22 @@ public class Window {
         g=1;
         b=1;
         a=1;
+    }
+
+    public static void changeScene(int newScene){
+//        Scene changer!!
+        switch(newScene){
+            case 0:
+                CurrentScene = new LevelEditorScene();
+//              CurrentScene.init();
+                break;
+            case 1:
+                CurrentScene = new LevelScene();
+                break;
+            default:
+                assert false: "Unknown Scene" + newScene + "!";
+                break;
+        }
     }
 
     public static Window get(){
@@ -96,10 +120,16 @@ public class Window {
 //      NOTE: Game will break if i dont have this i have no idea why
 //      basically binds our project to openGL
         GL.createCapabilities();
+        Window.changeScene(0);
     }
 
 //      GAME LOOP
     public void loop(){
+//      frame start and end time
+        float beginTime = Time.getTime();
+        float endTime = Time.getTime();
+        float dt = -1.0f;
+
         while(!glfwWindowShouldClose(glfwWindow)){
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
             glfwPollEvents();
@@ -108,7 +138,17 @@ public class Window {
             glClearColor(r,g,b,a);
 //          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
+
+            if(dt >= 0){
+                CurrentScene.update(dt);
+            }
+
             glfwSwapBuffers(glfwWindow);
+
+//          Get end time and find dT and loop it back to beginTime
+            endTime = Time.getTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 }
