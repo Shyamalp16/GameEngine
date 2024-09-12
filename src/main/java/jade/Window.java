@@ -4,6 +4,7 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -35,6 +36,14 @@ public class Window {
         System.out.println("Hello " + Version.getVersion());
         init();
         loop();
+
+//      Free the memory at the end
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+//      Terminate GLFW and free the error callbacks
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
     public void init(){
@@ -60,6 +69,13 @@ public class Window {
             throw new IllegalStateException("Failed to create a window");
         }
 
+//      Forwards the position, buttonpress, scroll callbacks to the function
+//      NOTE: docs glfw.org/docs/3.3/input_guide.html
+
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+
 //      Make the openGl context current
         glfwMakeContextCurrent(glfwWindow);
 
@@ -70,6 +86,7 @@ public class Window {
         glfwShowWindow(glfwWindow);
 
 //      NOTE: Game will break if i dont have this i have no idea why
+//      basically binds our project to openGL
         GL.createCapabilities();
     }
 
@@ -79,7 +96,7 @@ public class Window {
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
             glfwPollEvents();
 
-//           Sets the color in buffer
+//          Sets the color in buffer
             glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 //          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
