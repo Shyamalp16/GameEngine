@@ -24,7 +24,7 @@ public class Camera {
     }
 
     public Matrix4f getViewMatrix(){
-//      Camera Looing at -1 in z direction and 1 in y direction
+//      Camera Looking at -1 in z direction and 1 in y direction
         Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
         Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
         this.viewMatrix.identity();

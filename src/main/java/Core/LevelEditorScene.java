@@ -35,12 +35,20 @@ public class LevelEditorScene extends Scene {
             "    color = fColor;\n" +
             "}";
 
+//    private float[] vertexArray = {
+////       position           //color                        // UV Coordinates
+//            100f,   0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,        1,1,               //Bottom right   0
+//            0f,   100f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,        0,0,               //Top left       1
+//            100f, 100f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f,        1,0,               //Top right      2
+//            0f,     0f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,        0,1,               //Bottom left    3
+//    };
+
     private float[] vertexArray = {
-//        position           //color                        // UV Coordinates
-         100f,   0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,        1,1,               //Bottom right   0
-         0f,   100f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,        0,0,               //Top left       1
-         100f, 100f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f,        1,0,               //Top right      2
-         0f,     0f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,        0,1,               //Bottom left    3
+//       position           //color                        // UV Coordinates
+            100f,   0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,        1,1,               //Bottom right   0
+            0f,   100f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,        0,0,               //Top left       1
+            100f, 100f, 0.0f,   1.0f, 0.0f, 1.0f, 1.0f,        1,0,               //Top right      2
+            0f,     0f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,        0,1,               //Bottom left    3
     };
 
     private int[] elementArray = {
@@ -60,6 +68,8 @@ public class LevelEditorScene extends Scene {
     //        Compile and link shaders
     public void init(){
         this.camera = new Camera(new Vector2f());
+        this.camera.position.x = -350.0f;
+        this.camera.position.y = -300.0f;
 //     Compiling the shaders
         defaultShader = new Shader("D:\\GameEngine\\assets\\shaders\\default.glsl");
         defaultShader.compile();
