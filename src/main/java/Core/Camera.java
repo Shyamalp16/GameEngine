@@ -1,0 +1,39 @@
+package Core;
+
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+
+public class Camera {
+    private Matrix4f projectionMatrix, viewMatrix;
+    public Vector2f position;
+
+    public Camera(Vector2f position){
+        this.position = position;
+
+//      initialize it with 0 so the starting position is not messed up
+        this.projectionMatrix = new Matrix4f();
+        this.viewMatrix = new Matrix4f();
+        adjustProjection();
+    }
+
+    public void adjustProjection(){
+//      makes it identity matrix
+        projectionMatrix.identity();
+        projectionMatrix.ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
+    }
+
+    public Matrix4f getViewMatrix(){
+//      Camera Looing at -1 in z direction and 1 in y direction
+        Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
+        Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
+        this.viewMatrix.identity();
+//      Where the camera is located at
+        viewMatrix.lookAt(new Vector3f(position.x, position.y, 20.0f), cameraFront.add(position.x, position.y, 0.0f), cameraUp);
+        return this.viewMatrix;
+    }
+
+    public Matrix4f getProjectionMatrix(){
+        return this.projectionMatrix;
+    }
+}
