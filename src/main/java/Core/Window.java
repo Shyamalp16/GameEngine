@@ -42,10 +42,12 @@ public class Window {
             case 0:
                 CurrentScene = new LevelEditorScene();
                 CurrentScene.init();
+                CurrentScene.start();
                 break;
             case 1:
                 CurrentScene = new LevelScene();
                 CurrentScene.init();
+                CurrentScene.start();
                 break;
             default:
                 assert false: "Unknown Scene" + newScene + "!";
