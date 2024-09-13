@@ -78,7 +78,7 @@ public class LevelEditorScene extends Scene {
         this.testObj.addComponent(new SpriteRenderer());
         this.testObj.addComponent(new FontRenderer());
         this.addGameObjectToScene(this.testObj);
-
+//
         this.camera = new Camera(new Vector2f(-200, -300));
 //     Compiling the shaders
         defaultShader = new Shader("D:\\GameEngine\\assets\\shaders\\default.glsl");
