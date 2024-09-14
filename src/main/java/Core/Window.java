@@ -3,7 +3,6 @@ package Core;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import util.Time;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -130,8 +129,8 @@ public class Window {
 //      GAME LOOP
     public void loop(){
 //      frame start and end time
-        float beginTime = Time.getTime();
-        float endTime = Time.getTime();
+        float beginTime = (float)glfwGetTime();
+        float endTime = (float)glfwGetTime();
         float dt = -1.0f;
 
         while(!glfwWindowShouldClose(glfwWindow)){
@@ -150,7 +149,7 @@ public class Window {
             glfwSwapBuffers(glfwWindow);
 
 //          Get end time and find dT and loop it back to beginTime
-            endTime = Time.getTime();
+            endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
             beginTime = endTime;
         }
