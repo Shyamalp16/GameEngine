@@ -4,6 +4,7 @@ package Core;
 import components.SpriteRenderer;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import util.AssetPool;
 
 public class LevelEditorScene extends Scene {
     public LevelEditorScene(){
@@ -11,7 +12,7 @@ public class LevelEditorScene extends Scene {
     }
     @Override
     public void init() {
-        this.camera = new Camera(new Vector2f());
+        this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         int xOffset = 10;
         int yOffset = 10;
 
@@ -31,10 +32,17 @@ public class LevelEditorScene extends Scene {
                 this.addGameObjectToScene(go);
             }
         }
+
+        loadResources();
+    }
+
+    private void loadResources(){
+        AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
     }
 
     @Override
     public void update(float dt) {
+        System.out.println("FPS " + (1.0f/dt));
         for(GameObject go : this.gameObjects){
             go.update(dt);
         }
