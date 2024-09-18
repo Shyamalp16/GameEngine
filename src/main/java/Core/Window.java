@@ -123,6 +123,10 @@ public class Window {
 //      NOTE: Game will break if i dont have this i have no idea why
 //      basically binds our project to openGL
         GL.createCapabilities();
+
+//      Z-indexing and blending
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         Window.changeScene(0);
     }
 
