@@ -13,7 +13,11 @@ public class Texture {
     private int texID;
     private int height, width;
 
-    public Texture(String filePath){
+    public Texture(){
+
+    }
+
+    public void init(String filePath){
         this.filePath = filePath;
 
 //      Generate and Bind Texture on GPU
@@ -47,7 +51,7 @@ public class Texture {
             if(channels.get(0) == 3){
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
             }else if(channels.get(0) == 4){
-    //          Loading image to the GPU to render
+                //          Loading image to the GPU to render
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
             }else{
                 assert false: "Error: (Texture.java) Unknown number of channels " + channels.get(0) + "!";

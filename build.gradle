@@ -22,11 +22,11 @@ repositories {
 
 dependencies {
 //   IMGUI STUFF
-//    implementation "io.imgui.java:binding::$imguiVersion"
-//    implementation "io.imgui.java:lwjgl3::$imguiVersion"
 
     implementation "io.github.spair:imgui-java-app:${imguiVersion}"
-//    runtimeOnly "io.imgui.java:natives-windows-x86:$imguiVersion"
+
+//  GSON STUFF
+    implementation 'com.google.code.gson:gson:2.11.0'
 
 
 //LWJGL stuff

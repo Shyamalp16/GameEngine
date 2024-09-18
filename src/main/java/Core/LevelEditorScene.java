@@ -1,6 +1,8 @@
 package Core;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -23,14 +25,30 @@ public class LevelEditorScene extends Scene {
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
         obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), 2);
 //        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
-        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        SpriteRenderer obj1Sprite = new SpriteRenderer();
+        obj1.addComponent(obj1Sprite);
+        obj1Sprite.setColor(new Vector4f(1,0,0,1));
+
+//        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         this.addGameObjectToScene(obj1);
+        this.activeGameObject = obj1;
 
 
         obj2 = new GameObject("Obj2", new Transform(new Vector2f(300, 100), new Vector2f(128, 128)), 1);
-        obj2.addComponent(new SpriteRenderer(sprites.getSprite(0)));
-        this.addGameObjectToScene(obj2);
-        this.activeGameObject = obj2;
+        SpriteRenderer obj2SpriteRenderer = new SpriteRenderer();
+        Sprite obj2Sprite = new Sprite();
+        obj2Sprite.setTexture(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png"));
+        obj2SpriteRenderer.setSprite(obj2Sprite);
+        obj2.addComponent(obj2SpriteRenderer);
+//        this.addGameObjectToScene(obj2);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Component.class, new ComponentDeserializer()).create();
+        String serialized = gson.toJson(obj1);
+        System.out.println(serialized);
+        GameObject obj = gson.fromJson(serialized, GameObject.class);
+        System.out.println(obj);
+
+
     }
 
     private void loadResources(){
@@ -54,19 +72,12 @@ public class LevelEditorScene extends Scene {
             obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
         }
 
-        obj1.transform.position.x -= 80 * dt;
-        System.out.println("FPS " + (1.0f/dt));
+//        obj1.transform.position.x -= 80 * dt;
+//        System.out.println("FPS " + (1.0f/dt));
         for(GameObject go : this.gameObjects){
             go.update(dt);
         }
 
         this.renderer.render();
-    }
-
-    @Override
-    public void imgui(){
-        ImGui.begin("Test Window");
-        ImGui.text("SEX SEX SEX");
-        ImGui.end();
     }
 }
