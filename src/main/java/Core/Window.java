@@ -160,7 +160,7 @@ public class Window {
             if(dt >= 0){
                 CurrentScene.update(dt);
             }
-            this.imGuiLayer.update(dt);
+            this.imGuiLayer.update(dt, CurrentScene);
             glfwSwapBuffers(glfwWindow);
 
 //          Get end time and find dT and loop it back to beginTime
