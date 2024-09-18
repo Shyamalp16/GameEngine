@@ -10,10 +10,13 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     private final String title;
     private long glfwWindow;
+    private ImGuiLayer imGuiLayer;
+
+
 
     public float r;
     public float g;
@@ -108,6 +111,10 @@ public class Window {
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
 
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
@@ -127,6 +134,10 @@ public class Window {
 //      Z-indexing and blending
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+        this.imGuiLayer = new ImGuiLayer(glfwWindow);
+        this.imGuiLayer.initImGui();
+
         Window.changeScene(0);
     }
 
@@ -149,7 +160,7 @@ public class Window {
             if(dt >= 0){
                 CurrentScene.update(dt);
             }
-
+            this.imGuiLayer.update(dt);
             glfwSwapBuffers(glfwWindow);
 
 //          Get end time and find dT and loop it back to beginTime
@@ -157,5 +168,21 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+    }
+
+    public static int getWidth(){
+        return get().width;
+    }
+
+    public static int getHeight(){
+        return get().height;
+    }
+
+    public static void setWidth(int newW){
+        get().width = newW;
+    }
+
+    public static void setHeight(int newH){
+        get().height = newH;
     }
 }

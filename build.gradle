@@ -13,14 +13,24 @@ dependencies {
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.10.7"
 project.ext.lwjglNatives = "natives-windows"
+project.ext.imguiVersion = "1.81.0"
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+//   IMGUI STUFF
+//    implementation "io.imgui.java:binding::$imguiVersion"
+//    implementation "io.imgui.java:lwjgl3::$imguiVersion"
 
+    implementation "io.github.spair:imgui-java-app:${imguiVersion}"
+//    runtimeOnly "io.imgui.java:natives-windows-x86:$imguiVersion"
+
+
+//LWJGL stuff
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
     implementation "org.lwjgl:lwjgl-glfw"
