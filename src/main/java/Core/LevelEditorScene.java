@@ -3,6 +3,7 @@ package Core;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Rigidbody;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -15,6 +16,7 @@ public class LevelEditorScene extends Scene {
 
     private GameObject obj1, obj2;
     private Spritesheet sprites;
+    private SpriteRenderer obj1Sprite;
     public LevelEditorScene(){
 
     }
@@ -23,18 +25,21 @@ public class LevelEditorScene extends Scene {
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         if(levelLoaded){
+            this.activeGameObject = gameObjects.get(0);
             return;
         }
-        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
-        obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), 2);
-//        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
-        SpriteRenderer obj1Sprite = new SpriteRenderer();
-        obj1.addComponent(obj1Sprite);
-        obj1Sprite.setColor(new Vector4f(1,0,0,1));
 
-//        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
+
+        obj1 = new GameObject("Obj1", new Transform(new Vector2f(200, 100), new Vector2f(128, 128)), 2);
+//        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
+        obj1Sprite = new SpriteRenderer();
+        obj1Sprite.setColor(new Vector4f(0,1,0,1));
+        obj1.addComponent(obj1Sprite);
+        obj1.addComponent(new Rigidbody());
         this.addGameObjectToScene(obj1);
         this.activeGameObject = obj1;
+//        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
 
 
 //        obj2 = new GameObject("Obj2", new Transform(new Vector2f(300, 100), new Vector2f(128, 128)), 1);

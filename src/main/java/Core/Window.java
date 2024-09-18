@@ -43,18 +43,17 @@ public class Window {
         switch(newScene){
             case 0:
                 CurrentScene = new LevelEditorScene();
-                CurrentScene.init();
-                CurrentScene.start();
                 break;
             case 1:
                 CurrentScene = new LevelScene();
-                CurrentScene.init();
-                CurrentScene.start();
                 break;
             default:
                 assert false: "Unknown Scene" + newScene + "!";
                 break;
         }
+        CurrentScene.load();
+        CurrentScene.init();
+        CurrentScene.start();
     }
 
     public static Window get(){
@@ -147,8 +146,6 @@ public class Window {
         float beginTime = (float)glfwGetTime();
         float endTime = (float)glfwGetTime();
         float dt = -1.0f;
-
-        CurrentScene.load();
 
         while(!glfwWindowShouldClose(glfwWindow)){
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
