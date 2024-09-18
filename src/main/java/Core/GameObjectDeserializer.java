@@ -7,7 +7,7 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
     @Override
     public GameObject deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        String name = jsonObject.get("Name").getAsString();
+        String name = jsonObject.get("name").getAsString();
         JsonArray components = jsonObject.getAsJsonArray("components");
         Transform transform = context.deserialize(jsonObject.get("transform"), Transform.class);
         int zIndex = context.deserialize(jsonObject.get("zIndex"), int.class);

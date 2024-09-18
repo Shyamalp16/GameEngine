@@ -148,6 +148,8 @@ public class Window {
         float endTime = (float)glfwGetTime();
         float dt = -1.0f;
 
+        CurrentScene.load();
+
         while(!glfwWindowShouldClose(glfwWindow)){
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
             glfwPollEvents();
@@ -168,6 +170,8 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+
+        CurrentScene.saveExit();
     }
 
     public static int getWidth(){
