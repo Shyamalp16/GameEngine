@@ -20,23 +20,23 @@ public class LevelEditorScene extends Scene {
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
-        obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), -1);
+        obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), 2);
 //        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
         obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         this.addGameObjectToScene(obj1);
 
-        obj2 = new GameObject("Obj2", new Transform(new Vector2f(300, 100), new Vector2f(128, 128)), -1);
+        obj2 = new GameObject("Obj2", new Transform(new Vector2f(300, 100), new Vector2f(128, 128)), 1);
         obj2.addComponent(new SpriteRenderer(sprites.getSprite(1)));
         this.addGameObjectToScene(obj2);
     }
 
     private void loadResources(){
         AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
-        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png"), 20, 33, 6, 0 ));
+        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png"), 20, 35, 6, 0 ));
     }
 
     private int spriteIndex = 0;
-    private float spriteFlipTime = 0.15f;
+    private float spriteFlipTime = 0.2f;
     private float spriteFlipTimeLeft = 0.0f;
 
     @Override
