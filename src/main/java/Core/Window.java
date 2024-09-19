@@ -3,6 +3,7 @@ package Core;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import renderer.DebugDraw;
 import scenes.LevelEditorScene;
 import scenes.LevelScene;
 import scenes.Scene;
@@ -18,8 +19,6 @@ public class Window {
     private final String title;
     private long glfwWindow;
     private ImGuiLayer imGuiLayer;
-
-
 
     public float r;
     public float g;
@@ -154,12 +153,14 @@ public class Window {
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
             glfwPollEvents();
 
+            DebugDraw.beginFrame();
 //          Sets the color in buffer
             glClearColor(r,g,b,a);
 //          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
 
             if(dt >= 0){
+                DebugDraw.draw();
                 CurrentScene.update(dt);
             }
             this.imGuiLayer.update(dt, CurrentScene);
