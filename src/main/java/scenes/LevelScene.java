@@ -1,4 +1,6 @@
-package Core;
+package scenes;
+
+import Core.Window;
 
 public class LevelScene extends Scene {
     public LevelScene(){

@@ -1,12 +1,8 @@
-package Core;
+package scenes;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import components.Rigidbody;
-import components.Sprite;
-import components.SpriteRenderer;
-import components.Spritesheet;
+import Core.*;
+import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
@@ -18,6 +14,9 @@ public class LevelEditorScene extends Scene {
     private GameObject obj1, obj2;
     private Spritesheet sprites;
     private SpriteRenderer obj1Sprite;
+
+    MouseControls mouseControls = new MouseControls();
+
     public LevelEditorScene(){
 
     }
@@ -28,6 +27,7 @@ public class LevelEditorScene extends Scene {
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
         if(levelLoaded){
             this.activeGameObject = gameObjects.get(0);
+            this.activeGameObject.addComponent(new Rigidbody());
             return;
         }
 
@@ -64,18 +64,7 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
-        MouseListener.getOrthoY();
-//        spriteFlipTimeLeft -= dt;
-//        if(spriteFlipTimeLeft <= 0){
-//            spriteFlipTimeLeft = spriteFlipTime;
-//            spriteIndex++;
-//            if(spriteIndex > 5){
-//                spriteIndex = 0;
-//            }
-//            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
-//        }
-
-//        obj1.transform.position.x -= 80 * dt;
+        mouseControls.update(dt);
 //        System.out.println("FPS " + (1.0f/dt));
         for(GameObject go : this.gameObjects){
             go.update(dt);
@@ -105,7 +94,8 @@ public class LevelEditorScene extends Scene {
 
             ImGui.pushID(i);
             if(ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[0].x, texCoords[0].y, texCoords[2].x, texCoords[2].y)){
-
+                GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
+                mouseControls.pickupObject(object);
             }
             ImGui.popID();
 

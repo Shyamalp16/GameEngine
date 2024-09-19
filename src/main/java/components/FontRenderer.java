@@ -1,7 +1,5 @@
 package components;
 
-import Core.Component;
-
 public class FontRenderer extends Component {
 
     @Override

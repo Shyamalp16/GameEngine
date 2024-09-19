@@ -1,4 +1,4 @@
-package Core;
+package components;
 
 import com.google.gson.*;
 
