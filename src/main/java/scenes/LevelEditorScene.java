@@ -17,13 +17,15 @@ public class LevelEditorScene extends Scene {
     private Spritesheet sprites;
     private SpriteRenderer obj1Sprite;
 
-    MouseControls mouseControls = new MouseControls();
+    GameObject levelEditorStuff = new GameObject("LevelEditor", new Transform(new Vector2f()), 0);
 
     public LevelEditorScene(){
 
     }
     @Override
     public void init() {
+        levelEditorStuff.addComponent(new MouseControls());
+        levelEditorStuff.addComponent(new GridLines());
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
@@ -35,14 +37,14 @@ public class LevelEditorScene extends Scene {
 
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
 
-        obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), 2);
-//        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
-        obj1Sprite = new SpriteRenderer();
-        obj1Sprite.setColor(new Vector4f(0,1,0,1));
-        obj1.addComponent(obj1Sprite);
-        obj1.addComponent(new Rigidbody());
-        this.addGameObjectToScene(obj1);
-        this.activeGameObject = obj1;
+//        obj1 = new GameObject("Obj1", new Transform(new Vector2f(600, 100), new Vector2f(128, 128)), 2);
+////        obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\1.png"))));
+//        obj1Sprite = new SpriteRenderer();
+//        obj1Sprite.setColor(new Vector4f(0,1,0,1));
+//        obj1.addComponent(obj1Sprite);
+//        obj1.addComponent(new Rigidbody());
+//        this.addGameObjectToScene(obj1);
+//        this.activeGameObject = obj1;
 //        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
 
 
@@ -60,19 +62,10 @@ public class LevelEditorScene extends Scene {
         AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
     }
 
-    private int spriteIndex = 0;
-    private float spriteFlipTime = 0.2f;
-    private float spriteFlipTimeLeft = 0.0f;
 
-    float t = 0.0f;
     @Override
     public void update(float dt) {
-        mouseControls.update(dt);
-        float x = ((float)Math.sin(t) * 200.0f) + 600;
-        float y = ((float)Math.cos(t) * 200.0f) + 400;
-        t += 0.05f;
-        DebugDraw.addLine2D(new Vector2f(600, 400), new Vector2f(x, y), new Vector3f(0,0,1), 1);
-
+        levelEditorStuff.update(dt);
 //        System.out.println("FPS " + (1.0f/dt));
         for(GameObject go : this.gameObjects){
             go.update(dt);
@@ -101,9 +94,9 @@ public class LevelEditorScene extends Scene {
             Vector2f[] texCoords = sprite.getTexCoords();
 
             ImGui.pushID(i);
-            if(ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[0].x, texCoords[0].y, texCoords[2].x, texCoords[2].y)){
-                GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
-                mouseControls.pickupObject(object);
+            if(ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)){
+                GameObject object = Prefabs.generateSpriteObject(sprite, 32, 32);
+                levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
             }
             ImGui.popID();
 
