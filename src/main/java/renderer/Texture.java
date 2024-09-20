@@ -85,4 +85,17 @@ public class Texture {
         return texID;
     }
 
+    public String getFilePath(){
+        return this.filePath;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(other == null) return false;
+        if(!(other instanceof Texture)) return false;
+
+        Texture oTex = (Texture)other;
+        return oTex.getWidth() == this.width && oTex.getHeight() == this.height && oTex.getId() == this.texID && oTex.getFilePath().equals(this.filePath);
+    }
+
 }

@@ -13,7 +13,7 @@ public class ForceRegistration {
 
     @Override
     public boolean equals(Object other){
-        if(other == null) return false;
+        if(other == null) return false  ;
         if(other.getClass() != ForceRegistration.class) return  false;
 
         ForceRegistration fr = (ForceRegistration)other;

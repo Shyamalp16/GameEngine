@@ -1,11 +1,16 @@
 package Physics2D.rigidbody;
 
+import Core.Transform;
 import components.Component;
 import org.joml.Vector2f;
 
 public class Rigidbody2D extends Component {
+    private Transform rawTransform;
     private Vector2f position = new Vector2f();
     private float rotation = 0.0f;
+    private float mass = 0.0f;
+    private float invMass = 0.0f;
+    private Vector2f forceAccum = new Vector2f();
 
     private Vector2f linearVelocity = new Vector2f();
     private float angularVelocity = 0.0f;
@@ -13,13 +18,29 @@ public class Rigidbody2D extends Component {
     private float angularDamping = 0.0f;
     private boolean fixedRotation = false;
 
+    public void physicsUpdate(float dt){
+        if(this.mass == 0.0f){
+            return;
+        }
 
-    public Vector2f getPosition() {
-        return this.position;
+//        Calculate linear velocity
+        Vector2f acceleration = new Vector2f(forceAccum).mul(this.invMass);
+        linearVelocity.add(acceleration.mul(dt));
+
+//       Update linear position
+        this.position.add(new Vector2f(linearVelocity).mul(dt));
+        syncCollisionTransforms();
+        clearAccumulators();
     }
 
-    public float getRotation() {
-        return this.rotation;
+    public  void syncCollisionTransforms(){
+        if(rawTransform != null){
+            rawTransform.position.set(this.position);
+        }
+    }
+
+    public void clearAccumulators(){
+        this.forceAccum.zero();
     }
 
     public void setTransform(Vector2f position, float rotation){
@@ -29,5 +50,33 @@ public class Rigidbody2D extends Component {
 
     public void setTransform(Vector2f position){
         this.position.set(position);
+    }
+
+    public float getRotation() {
+        return this.rotation;
+    }
+
+    public Vector2f getPosition() {
+        return this.position;
+    }
+
+    public float getMass() {
+        return this.mass;
+    }
+
+    public void setMass(float mass) {
+        this.mass = mass;
+        if(this.mass != 0.0f){
+            this.invMass = 1.0f / this.mass;
+        }
+    }
+
+    public void addForce(Vector2f force){
+        this.forceAccum.add(force);
+    }
+
+    public void setRawTransform(Transform rawTransform) {
+        this.rawTransform = rawTransform;
+        this.position.set(rawTransform.position);
     }
 }

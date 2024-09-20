@@ -8,7 +8,7 @@ import java.util.List;
 public class ForceRegistry {
     private List<ForceRegistration> registry;
 
-    public ForceRegistry(List<ForceRegistration> registry) {
+    public ForceRegistry() {
         this.registry = new ArrayList<>();
     }
 

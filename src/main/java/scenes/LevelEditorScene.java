@@ -27,7 +27,7 @@ public class LevelEditorScene extends Scene {
     @Override
     public void init() {
         levelEditorStuff.addComponent(new MouseControls());
-        levelEditorStuff.addComponent(new GridLines());
+//        levelEditorStuff.addComponent(new GridLines());
 
         obj1 = new Transform(new Vector2f(100,500));
         obj2 = new Transform(new Vector2f(200,500));
@@ -46,11 +46,6 @@ public class LevelEditorScene extends Scene {
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
-//        if(levelLoaded){
-//            this.activeGameObject = gameObjects.get(0);
-//            this.activeGameObject.addComponent(new Rigidbody());
-//            return;
-//        }
 
         if(levelLoaded){
             if(gameObjects.size() > 0){
@@ -58,7 +53,6 @@ public class LevelEditorScene extends Scene {
             }
             return;
         }
-
 //        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
     }
 
