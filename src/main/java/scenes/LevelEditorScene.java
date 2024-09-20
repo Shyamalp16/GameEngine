@@ -8,6 +8,7 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.system.CallbackI;
 import renderer.DebugDraw;
 import util.AssetPool;
 
@@ -62,11 +63,15 @@ public class LevelEditorScene extends Scene {
         AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
     }
 
-
+    float x = 0.0f;
+    float y = 0.0f;
     @Override
     public void update(float dt) {
-        levelEditorStuff.update(dt);
 //        System.out.println("FPS " + (1.0f/dt));
+        levelEditorStuff.update(dt);
+        DebugDraw.addCircle2D(new Vector2f(x, y), 64, new Vector3f(0, 1, 0), 1);
+        x+=50.0f*dt;
+        y+=50.0f*dt;
         for(GameObject go : this.gameObjects){
             go.update(dt);
         }

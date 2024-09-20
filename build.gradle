@@ -16,7 +16,6 @@ project.ext.lwjglNatives = "natives-windows"
 project.ext.imguiVersion = "1.81.0"
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -27,7 +26,6 @@ dependencies {
 
 //  GSON STUFF
     implementation 'com.google.code.gson:gson:2.11.0'
-
 
 //LWJGL stuff
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
