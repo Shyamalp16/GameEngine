@@ -264,7 +264,6 @@ public class IntersectionDetector2D {
         }else if(closestPointToCircle.y > max.y){
             closestPointToCircle.y = max.y;
         }
-
         Vector2f circleToBox = new Vector2f(c1.getCenter()).sub(closestPointToCircle);
         return circleToBox.lengthSquared() <= c1.getRadius() * c1.getRadius();
     }
