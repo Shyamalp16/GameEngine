@@ -6,9 +6,9 @@ imgui.ini
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-test/
-test/physics2d
-test/physics2d/CollisionDetectorTest
+src/test/
+src/test/physics2d
+src/test/physics2d/CollisionDetectorTest
 
 
 
