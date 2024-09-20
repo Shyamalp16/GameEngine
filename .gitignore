@@ -6,6 +6,11 @@ imgui.ini
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+test/
+test/physics2d
+test/physics2d/CollisionDetectorTest
+
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

@@ -2,7 +2,6 @@ package Physics2D.rigidbody;
 
 import Physics2D.primitives.*;
 import org.joml.Vector2f;
-import org.lwjgl.system.CallbackI;
 import renderer.Line2D;
 import util.VectorMath;
 

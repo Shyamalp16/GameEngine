@@ -53,6 +53,11 @@ public class Box2D {
         return this.halfSize;
     }
 
+    public void setSize(Vector2f size){
+        this.size.set(size);
+        this.halfSize.set(size.x/2, size.y/2);
+    }
+
     public void setRigidbody(Rigidbody2D rb){
         this.rigidbody = rb;
     }

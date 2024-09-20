@@ -1,6 +1,4 @@
 package Physics2D.primitives;
-
-import jdk.incubator.vector.VectorOperators;
 import org.joml.Vector2f;
 
 public class RaycastResult {
