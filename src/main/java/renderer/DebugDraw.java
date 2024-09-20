@@ -1,12 +1,10 @@
 package renderer;
 
 import Core.Window;
-import org.joml.Math;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.lwjgl.system.CallbackI;
 import util.AssetPool;
-import util.JMath;
+import util.VectorMath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,7 +142,7 @@ public class DebugDraw {
 
         if(rotation != 0.0f){
             for(Vector2f vert : vertices){
-                JMath.rotate(vert, rotation, center);
+                VectorMath.rotate(vert, rotation, center);
             }
         }
 
@@ -170,7 +168,7 @@ public class DebugDraw {
         int currentAngle = 0;
         for(int i=0; i < points.length; i++){
             Vector2f tmp = new Vector2f(0, radius);
-            JMath.rotate(tmp, currentAngle, new Vector2f());
+            VectorMath.rotate(tmp, currentAngle, new Vector2f());
             points[i] = new Vector2f(tmp).add(center);
 
             if(i > 0){

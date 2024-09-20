@@ -20,8 +20,10 @@ repositories {
 }
 
 dependencies {
-//   IMGUI STUFF
+//   JUNIT STUFF
+    testImplementation('junit:junit:4.13')
 
+//   IMGUI STUFF
     implementation "io.github.spair:imgui-java-app:${imguiVersion}"
 
 //  GSON STUFF

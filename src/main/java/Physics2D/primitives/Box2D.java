@@ -2,7 +2,7 @@ package Physics2D.primitives;
 
 import Physics2D.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
-import util.JMath;
+import util.VectorMath;
 
 
 public class Box2D {
@@ -38,10 +38,18 @@ public class Box2D {
 
         if(rigidbody.getRotation() != 0.0f){
             for(Vector2f vert : vertices){
-//                JMath.rotate(vert, this.rigidbody.getPosition(), this.rigidbody.getRotation());
+                VectorMath.rotate(vert, this.getRigidbody().getRotation(), this.getRigidbody().getPosition());
             }
         }
 
         return vertices;
+    }
+
+    public Rigidbody2D getRigidbody(){
+        return this.rigidbody;
+    }
+
+    public Vector2f getHalfSize(){
+        return this.halfSize;
     }
 }
