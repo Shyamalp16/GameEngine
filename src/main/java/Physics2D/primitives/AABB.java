@@ -26,4 +26,13 @@ public class AABB {
     public Vector2f getMax(){
         return new Vector2f(this.rigidbody.getPosition()).add(this.halfSize);
     }
+
+    public void setRigidbody(Rigidbody2D rb){
+        this.rigidbody = rb;
+    }
+
+    public void setSize(Vector2f size){
+        this.size.set(size);
+        this.halfSize.set(size.x/2, size.y/2);
+    }
 }

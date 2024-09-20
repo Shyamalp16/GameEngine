@@ -46,8 +46,8 @@ public class IntersectionDetector2D {
 //        Translate points to local space
         Vector2f localPoint = new Vector2f(point);
         VectorMath.rotate(localPoint, box.getRigidbody().getRotation(), box.getRigidbody().getPosition());
-        Vector2f min = box.getMin();
-        Vector2f max = box.getMax();
+        Vector2f min = box.getLocalMin();
+        Vector2f max = box.getLocalMax();
 
         return localPoint.x <= max.x
                 && min.x <= localPoint.x
@@ -118,7 +118,7 @@ public class IntersectionDetector2D {
 
 //      Construct a new line and send it to the function above
         Line2D localLine = new Line2D(localStart, localEnd);
-        AABB aabb = new AABB(box.getMin(), box.getMax());
+        AABB aabb = new AABB(box.getLocalMin(), box.getLocalMax());
         return lineAndAABB(localLine, aabb);
     }
 
@@ -264,6 +264,7 @@ public class IntersectionDetector2D {
         }else if(closestPointToCircle.y > max.y){
             closestPointToCircle.y = max.y;
         }
+
         Vector2f circleToBox = new Vector2f(c1.getCenter()).sub(closestPointToCircle);
         return circleToBox.lengthSquared() <= c1.getRadius() * c1.getRadius();
     }
