@@ -18,8 +18,8 @@ public class LevelEditorScene extends Scene {
 
     GameObject levelEditorStuff = new GameObject("LevelEditor", new Transform(new Vector2f()), 0);
     PhysicsSystem2D physics = new PhysicsSystem2D(1.0f/10.f, new Vector2f(0, -10));
-    Transform obj1, obj2;
-    Rigidbody2D rb1, rb2;
+    Transform obj1, obj2, obj3;
+    Rigidbody2D rb1, rb2, rb3;
 
     public LevelEditorScene(){
 
@@ -30,17 +30,21 @@ public class LevelEditorScene extends Scene {
         levelEditorStuff.addComponent(new MouseControls());
 //        levelEditorStuff.addComponent(new GridLines());
 
-        obj1 = new Transform(new Vector2f(100,350));
-        obj2 = new Transform(new Vector2f(100,300));
+        obj1 = new Transform(new Vector2f(120,500));
+        obj2 = new Transform(new Vector2f(140,300));
+        obj3 = new Transform(new Vector2f(100,300));
 
         rb1 = new Rigidbody2D();
         rb2 = new Rigidbody2D();
+        rb3 = new Rigidbody2D();
 
         rb1.setRawTransform(obj1);
         rb2.setRawTransform(obj2);
+        rb3.setRawTransform(obj3);
 
         rb1.setMass(100.0f);
         rb2.setMass(200.0f);
+        rb3.setMass(200.0f);
 
         Circle c1 = new Circle();
         c1.setRadius(10.0f);
@@ -49,11 +53,18 @@ public class LevelEditorScene extends Scene {
         Circle c2 = new Circle();
         c2.setRadius(20.0f);
         c2.setRigidbody(rb2);
+
+        Circle c3 = new Circle();
+        c3.setRadius(20.0f);
+        c3.setRigidbody(rb3);
+
         rb1.setCollider(c1);
         rb2.setCollider(c2);
+        rb3.setCollider(c3);
 
         physics.addRigidbody(rb1, true);
         physics.addRigidbody(rb2, false);
+        physics.addRigidbody(rb3, false);
 
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
@@ -95,6 +106,7 @@ public class LevelEditorScene extends Scene {
 
         DebugDraw.addCircle2D(obj1.position, 10.0f, new Vector3f(1,0,0), 1);
         DebugDraw.addCircle2D(obj2.position, 20.0f, new Vector3f(0,1,0), 1);
+        DebugDraw.addCircle2D(obj3.position, 20.0f, new Vector3f(0,0,1), 1);
 
         physics.update(dt);
         this.renderer.render();
