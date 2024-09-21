@@ -26,8 +26,6 @@ public class SpriteRenderer extends Component {
 //        this.isDirty = true;
 //    }
 
-
-
     public Texture getTexture(){
         return sprite.getTexture();
     }
@@ -78,11 +76,14 @@ public class SpriteRenderer extends Component {
         this.isDirty = false;
     }
 
-
     public void setColor(Vector4f color){
         if(!this.color.equals(color)){
             this.isDirty = true;
             this.color.set(color);
         }
+    }
+
+    public void setTexture(Texture texture){
+        this.sprite.setTexture(texture);
     }
 }

@@ -4,6 +4,7 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import renderer.DebugDraw;
+import renderer.FrameBuffer;
 import scenes.LevelEditorScene;
 import scenes.LevelScene;
 import scenes.Scene;
@@ -19,6 +20,7 @@ public class Window {
     private final String title;
     private long glfwWindow;
     private ImGuiLayer imGuiLayer;
+    private FrameBuffer frameBuffer;
 
     public float r;
     public float g;
@@ -138,6 +140,7 @@ public class Window {
 
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
+        this.frameBuffer = new FrameBuffer(1366, 786);
 
         Window.changeScene(0);
     }
@@ -159,11 +162,14 @@ public class Window {
 //          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
 
+//            this.frameBuffer.bind();
             if(dt >= 0){
                 DebugDraw.draw();
                 CurrentScene.update(dt);
             }
-//            this.imGuiLayer.update(dt, CurrentScene);
+            this.frameBuffer.unbind();
+
+            this.imGuiLayer.update(dt, CurrentScene);
             glfwSwapBuffers(glfwWindow);
 
 //          Get end time and find dT and loop it back to beginTime

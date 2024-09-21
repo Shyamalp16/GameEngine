@@ -28,7 +28,7 @@ public class LevelEditorScene extends Scene {
     @Override
     public void init() {
         levelEditorStuff.addComponent(new MouseControls());
-//        levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new GridLines());
 
         obj1 = new Transform(new Vector2f(120,500));
         obj2 = new Transform(new Vector2f(140,300));
@@ -68,7 +68,7 @@ public class LevelEditorScene extends Scene {
 
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
-        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
+        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
 
         if(levelLoaded){
             if(gameObjects.size() > 0){
@@ -81,16 +81,16 @@ public class LevelEditorScene extends Scene {
 
     private void loadResources(){
         AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
-        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
+        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png"), 20, 35, 6, 0 ));
 
-//        for(GameObject go : gameObjects){
-//            if(go.getComponent(SpriteRenderer.class) != null){
-//                SpriteRenderer spr = go.getComponent(SpriteRenderer.class);
-//                if(spr.getTexture() != null){
-//                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilePath()));
-//                }
-//            }
-//        }
+        for(GameObject go : gameObjects){
+            if(go.getComponent(SpriteRenderer.class) != null){
+                SpriteRenderer spr = go.getComponent(SpriteRenderer.class);
+                if(spr.getTexture() != null){
+                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilePath()));
+                }
+            }
+        }
     }
 
     float x = 0.0f;

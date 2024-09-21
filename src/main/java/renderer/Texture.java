@@ -10,11 +10,20 @@ import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
     private String filePath;
-    private int texID;
+    private transient int texID;
     private int height, width;
 
     public Texture(){
+        this.texID = -1;
+        this.width = -1;
+        this.height = -1;
+    }
 
+    public Texture(int width, int height){
+        this.filePath = "Generated";
+        texID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     }
 
     public void init(String filePath){
