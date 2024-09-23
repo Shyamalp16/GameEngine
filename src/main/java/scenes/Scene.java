@@ -53,6 +53,7 @@ public abstract class Scene {
     }
 
     public abstract void update(float dt);
+    public abstract void render();
 
     public Camera camera(){
         return this.camera;
@@ -94,26 +95,26 @@ public abstract class Scene {
             e.printStackTrace();
         }
 
-        if(!inFile.equals("")){
-            int maxGoID = -1;
+        if (!inFile.equals("")) {
+            int maxGoId = -1;
             int maxCompId = -1;
-
             GameObject[] objs = gson.fromJson(inFile, GameObject[].class);
-            for(int i=0; i<objs.length; i++){
+            for (int i=0; i < objs.length; i++) {
                 addGameObjectToScene(objs[i]);
-                for(Component c : objs[i].getAllComponents()){
-                    if(c.getUid() > maxCompId){
+
+                for (Component c : objs[i].getAllComponents()) {
+                    if (c.getUid() > maxCompId) {
                         maxCompId = c.getUid();
                     }
-                    if(objs[i].getUid() > maxGoID){
-                        maxGoID = objs[i].getUid();
-                    }
+                }
+                if (objs[i].getUid() > maxGoId) {
+                    maxGoId = objs[i].getUid();
                 }
             }
 
-            maxGoID++;
+            maxGoId++;
             maxCompId++;
-            GameObject.init(maxGoID);
+            GameObject.init(maxGoId);
             Component.init(maxCompId);
             this.levelLoaded = true;
         }

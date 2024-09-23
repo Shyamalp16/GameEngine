@@ -113,7 +113,7 @@ public class MouseListener {
 
     public static float getOrthoX(){
         float currentX = getX() - get().gameViewPortPos.x;
-        currentX = (currentX/ (float)get().gameViewPortSize.x) * 2.0f - 1.0f;
+        currentX = (currentX/ get().gameViewPortSize.x) * 2.0f - 1.0f;
         Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
         Matrix4f viewProjection = new Matrix4f();
         Window.getScene().camera().getInverseView().mul(Window.getScene().camera().getInverseProjection(), viewProjection);
@@ -133,6 +133,19 @@ public class MouseListener {
         return currentY;
     }
 
+    public static float getScreenX(){
+        float currentX = getX() - get().gameViewPortPos.x;
+        currentX = (currentX / get().gameViewPortSize.x) * 1920.0f;
+        return currentX;
+    }
+
+    public static float getScreenY(){
+        float currentY = getY() - get().gameViewPortPos.y;
+        currentY = 1080.0f - ((currentY / get().gameViewPortSize.y) * 1080.0f);
+        return currentY;
+    }
+
+
     public static void setGameViewPortSize(Vector2f gameViewPortSize) {
         get().gameViewPortSize.set(gameViewPortSize);
     }
@@ -140,4 +153,6 @@ public class MouseListener {
     public static void setGameViewPortPos(Vector2f gameViewPortPos) {
         get().gameViewPortPos.set(gameViewPortPos) ;
     }
+
+
 }

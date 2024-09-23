@@ -9,8 +9,6 @@ import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import renderer.DebugDraw;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene {
@@ -68,7 +66,7 @@ public class LevelEditorScene extends Scene {
 
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
-        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png");
+        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
 
         if(levelLoaded){
             if(gameObjects.size() > 0){
@@ -81,7 +79,7 @@ public class LevelEditorScene extends Scene {
 
     private void loadResources(){
         AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
-        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\LanceRunningAnimation.png"), 20, 35, 6, 0 ));
+        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
 
         for(GameObject go : gameObjects){
             if(go.getComponent(SpriteRenderer.class) != null){
@@ -104,11 +102,14 @@ public class LevelEditorScene extends Scene {
             go.update(dt);
         }
 
-        DebugDraw.addCircle2D(obj1.position, 10.0f, new Vector3f(1,0,0), 1);
-        DebugDraw.addCircle2D(obj2.position, 20.0f, new Vector3f(0,1,0), 1);
-        DebugDraw.addCircle2D(obj3.position, 20.0f, new Vector3f(0,0,1), 1);
+//        DebugDraw.addCircle2D(obj1.position, 10.0f, new Vector3f(1,0,0), 1);
+//        DebugDraw.addCircle2D(obj2.position, 20.0f, new Vector3f(0,1,0), 1);
+//        DebugDraw.addCircle2D(obj3.position, 20.0f, new Vector3f(0,0,1), 1);
+//        physics.update(dt);
+    }
 
-        physics.update(dt);
+    @Override
+    public void render(){
         this.renderer.render();
     }
 

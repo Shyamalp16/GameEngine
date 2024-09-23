@@ -3,11 +3,11 @@ package Core;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import renderer.DebugDraw;
-import renderer.FrameBuffer;
+import renderer.*;
 import scenes.LevelEditorScene;
 import scenes.LevelScene;
 import scenes.Scene;
+import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -21,6 +21,7 @@ public class Window {
     private long glfwWindow;
     private ImGuiLayer imGuiLayer;
     private FrameBuffer frameBuffer;
+    private PickingTexture pickingTexture;
 
     public float r;
     public float g;
@@ -140,9 +141,10 @@ public class Window {
 
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
+
         this.frameBuffer = new FrameBuffer(1920, 1080);
+        this.pickingTexture = new PickingTexture(1920, 1080);
         glViewport(0,0,1920, 1080);
-//        glViewport(0,0,1366, 786);
 
         Window.changeScene(0);
     }
@@ -153,22 +155,42 @@ public class Window {
         float beginTime = (float)glfwGetTime();
         float endTime = (float)glfwGetTime();
         float dt = -1.0f;
+        Shader defaultShader = AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
+        Shader pickingShader = AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\pickingShader.glsl");
 
         while(!glfwWindowShouldClose(glfwWindow)){
 //          Poll Events, will keep the mouse events, keyboard events etc in its context
             glfwPollEvents();
 
+//          Render pass 1 : pickingTexture
+            glDisable(GL_BLEND);
+            pickingTexture.enableWriting();
+            glViewport(0,0,1920,1080);
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            Renderer.bindShader(pickingShader);
+            CurrentScene.render();
+
+            if(MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
+                int x = (int)MouseListener.getScreenX();
+                int y = (int)MouseListener.getScreenY();
+                System.out.println(pickingTexture.readPixel(x, y));
+            }
+            pickingTexture.disableWriting();
+
+//          Render pass 2 : actualGame
+            glEnable(GL_BLEND);
             DebugDraw.beginFrame();
             this.frameBuffer.bind();
-//          Sets the color in buffer
             glClearColor(r,g,b,a);
-//          Tells the graphic library how to clear the buffer, (Flushes the buffer to the entire screen)
             glClear(GL_COLOR_BUFFER_BIT);
 
-
             if(dt >= 0){
-                DebugDraw.draw();
+                Renderer.bindShader(defaultShader);
                 CurrentScene.update(dt);
+                CurrentScene.render();
+                DebugDraw.draw();
             }
             this.frameBuffer.unbind();
 
