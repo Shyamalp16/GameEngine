@@ -1,5 +1,6 @@
 package Core;
 
+import engine.GameViewWindow;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
@@ -117,7 +118,7 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if(!io.getWantCaptureMouse()){
+            if(!io.getWantCaptureMouse() || !GameViewWindow.getWantCaptureMouse()){
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -180,6 +181,7 @@ public class ImGuiLayer {
         ImGui.newFrame();
         setupDockSpace();
         currenctScene.sceneImgui();
+        GameViewWindow.imgui();
         ImGui.end();
         ImGui.render();
 
@@ -227,11 +229,10 @@ public class ImGuiLayer {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
         windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove
                     | ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
-        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
+        ImGui.begin("Dockspace", new ImBoolean(true), windowFlags);
         ImGui.popStyleVar(2);
 
         ImGui.dockSpace(ImGui.getID("Dockspace"));
-
     }
 
 }
