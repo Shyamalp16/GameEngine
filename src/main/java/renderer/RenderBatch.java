@@ -31,6 +31,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
     private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
     private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES;
+
     private final int VERTEX_SIZE = 10;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
@@ -150,7 +151,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
             glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
         }
 
-//      Use shader
+
         Shader shader = Renderer.getBoundShader();
         shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
         shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
@@ -224,7 +225,6 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
 //          Load Entity ID
             vertices[offset + 9] = sprite.gameObject.getUid() + 1;
-
             offset += VERTEX_SIZE;
         }
     }

@@ -23,14 +23,14 @@ public class GameObject {
         this.uid = ID_COUNTER++;
     }
 
-    public <T extends Component> T getComponent(Class<T> componentClass){
-        for(Component c: components){
-            if(componentClass.isAssignableFrom(c.getClass())){
-                try{
+    public <T extends Component> T getComponent(Class<T> componentClass) {
+        for (Component c : components) {
+            if (componentClass.isAssignableFrom(c.getClass())) {
+                try {
                     return componentClass.cast(c);
-                }catch(ClassCastException e){
+                } catch (ClassCastException e) {
                     e.printStackTrace();
-                    assert false: "Error: (GameObject.java) Casting Component";
+                    assert false : "Error: Casting component.";
                 }
             }
         }
@@ -47,7 +47,7 @@ public class GameObject {
         }
     }
 
-    public void addComponent(Component c){
+    public void addComponent(Component c) {
         c.generateId();
         this.components.add(c);
         c.gameObject = this;
@@ -75,15 +75,15 @@ public class GameObject {
         }
     }
 
-    public static void init(int maxId){
+    public static void init(int maxId) {
         ID_COUNTER = maxId;
     }
 
-    public int getUid(){
+    public int getUid() {
         return this.uid;
     }
 
-    public List<Component> getAllComponents(){
+    public List<Component> getAllComponents() {
         return this.components;
     }
 }

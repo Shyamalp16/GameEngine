@@ -80,17 +80,17 @@ public abstract class Component {
         }
     }
 
-    public void generateId(){
-        if(this.uid == -1){
+    public void generateId() {
+        if (this.uid == -1) {
             this.uid = ID_COUNTER++;
         }
     }
 
-    public int getUid(){
+    public int getUid() {
         return this.uid;
     }
 
-    public  static void init(int maxId){
+    public static void init(int maxId) {
         ID_COUNTER = maxId;
     }
 }

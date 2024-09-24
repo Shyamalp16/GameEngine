@@ -114,6 +114,8 @@ public abstract class Scene {
 
             maxGoId++;
             maxCompId++;
+            System.out.println("MAX GO ID" + maxGoId);
+            System.out.println("MAX COMP ID" + maxCompId);
             GameObject.init(maxGoId);
             Component.init(maxCompId);
             this.levelLoaded = true;

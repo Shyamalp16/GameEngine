@@ -3,21 +3,20 @@ package scenes;
 
 import Core.*;
 import Physics2D.PhysicsSystem2D;
-import Physics2D.primitives.Circle;
 import Physics2D.rigidbody.Rigidbody2D;
 import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
+import org.joml.Vector4f;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene {
     private Spritesheet sprites;
+    GameObject obj1, obj2;
+    SpriteRenderer obj1Sprite;
 
     GameObject levelEditorStuff = new GameObject("LevelEditor", new Transform(new Vector2f()), 0);
-    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f/10.f, new Vector2f(0, -10));
-    Transform obj1, obj2, obj3;
-    Rigidbody2D rb1, rb2, rb3;
 
     public LevelEditorScene(){
 
@@ -28,42 +27,6 @@ public class LevelEditorScene extends Scene {
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
 
-        obj1 = new Transform(new Vector2f(120,500));
-        obj2 = new Transform(new Vector2f(140,300));
-        obj3 = new Transform(new Vector2f(100,300));
-
-        rb1 = new Rigidbody2D();
-        rb2 = new Rigidbody2D();
-        rb3 = new Rigidbody2D();
-
-        rb1.setRawTransform(obj1);
-        rb2.setRawTransform(obj2);
-        rb3.setRawTransform(obj3);
-
-        rb1.setMass(100.0f);
-        rb2.setMass(200.0f);
-        rb3.setMass(200.0f);
-
-        Circle c1 = new Circle();
-        c1.setRadius(10.0f);
-        c1.setRigidbody(rb1);
-
-        Circle c2 = new Circle();
-        c2.setRadius(20.0f);
-        c2.setRigidbody(rb2);
-
-        Circle c3 = new Circle();
-        c3.setRadius(20.0f);
-        c3.setRigidbody(rb3);
-
-        rb1.setCollider(c1);
-        rb2.setCollider(c2);
-        rb3.setCollider(c3);
-
-        physics.addRigidbody(rb1, true);
-        physics.addRigidbody(rb2, false);
-        physics.addRigidbody(rb3, false);
-
         loadResources();
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
@@ -72,7 +35,6 @@ public class LevelEditorScene extends Scene {
             if(gameObjects.size() > 0){
                 this.activeGameObject = gameObjects.get(0);
             }
-            return;
         }
 //        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
     }
