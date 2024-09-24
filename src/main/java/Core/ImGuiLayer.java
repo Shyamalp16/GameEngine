@@ -1,6 +1,7 @@
 package Core;
 
 import engine.GameViewWindow;
+import engine.PropertiesWindow;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
@@ -10,6 +11,7 @@ import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.type.ImBoolean;
+import renderer.PickingTexture;
 import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -18,9 +20,13 @@ public class ImGuiLayer {
     private long glfwWindow;
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private GameViewWindow gameViewWindow;
+    private PropertiesWindow propertiesWindow;
 
-    public ImGuiLayer(long glfwWindow){
+    public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture){
         this.glfwWindow = glfwWindow;
+        this.gameViewWindow = new GameViewWindow();
+        this.propertiesWindow = new PropertiesWindow(pickingTexture);
     }
 
     public void initImGui() {
@@ -118,7 +124,7 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if(!io.getWantCaptureMouse() || GameViewWindow.getWantCaptureMouse()){
+            if(!io.getWantCaptureMouse() || gameViewWindow.getWantCaptureMouse()){
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -174,14 +180,16 @@ public class ImGuiLayer {
         imGuiGl3.init("#version 330 core");
     }
 
-    public void update(float dt, Scene currenctScene){
+    public void update(float dt, Scene currentScene){
         startFrame(dt);
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
         setupDockSpace();
-        currenctScene.sceneImgui();
-        GameViewWindow.imgui();
+        currentScene.imgui();
+        gameViewWindow.imgui();
+        propertiesWindow.update(dt, currentScene);
+        propertiesWindow.imgui();
         ImGui.end();
         ImGui.render();
 

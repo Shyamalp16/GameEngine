@@ -31,11 +31,11 @@ public class LevelEditorScene extends Scene {
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
 
-        if(levelLoaded){
-            if(gameObjects.size() > 0){
-                this.activeGameObject = gameObjects.get(0);
-            }
-        }
+//        if(levelLoaded){
+//            if(gameObjects.size() > 0){
+//                this.activeGameObject = gameObjects.get(0);
+//            }
+//        }
 //        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
     }
 
