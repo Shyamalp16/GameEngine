@@ -13,8 +13,6 @@ import util.AssetPool;
 
 public class LevelEditorScene extends Scene {
     private Spritesheet sprites;
-    GameObject obj1, obj2;
-    SpriteRenderer obj1Sprite;
 
     GameObject levelEditorStuff = new GameObject("LevelEditor", new Transform(new Vector2f()), 0);
 
@@ -24,11 +22,12 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new EditorCamera(this.camera));
 
         loadResources();
-        this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
 
 //        if(levelLoaded){
@@ -59,6 +58,7 @@ public class LevelEditorScene extends Scene {
     public void update(float dt) {
 //        System.out.println("FPS " + (1.0f/dt));
         levelEditorStuff.update(dt);
+        this.camera.adjustProjection();
 
         for(GameObject go : this.gameObjects){
             go.update(dt);

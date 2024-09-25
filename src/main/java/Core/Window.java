@@ -200,7 +200,7 @@ public class Window {
 
             this.imGuiLayer.update(dt, CurrentScene);
             glfwSwapBuffers(glfwWindow);
-
+            MouseListener.endFrame();
 //          Get end time and find dT and loop it back to beginTime
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
