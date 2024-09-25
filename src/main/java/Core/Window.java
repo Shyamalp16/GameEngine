@@ -1,5 +1,6 @@
 package Core;
 
+import imgui.ImGui;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -232,5 +233,9 @@ public class Window {
 
     public static float getTargetAspectRatio(){
         return 16.0f / 9.0f;
+    }
+
+    public static ImGuiLayer getImGuiLayer(){
+        return get().imGuiLayer;
     }
 }

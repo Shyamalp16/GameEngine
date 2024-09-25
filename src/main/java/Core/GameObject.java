@@ -8,6 +8,7 @@ import java.util.List;
 public class GameObject {
     private static int ID_COUNTER = 0;
     private int uid = -1;
+    private boolean doSerialization = true;
 
     private String name;
     private List<Component> components;
@@ -85,5 +86,13 @@ public class GameObject {
 
     public List<Component> getAllComponents() {
         return this.components;
+    }
+
+    public void setNoSerialize(){
+        this.doSerialization = false;
+    }
+
+    public boolean doSerialization(){
+        return this.doSerialization;
     }
 }

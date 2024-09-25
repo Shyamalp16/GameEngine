@@ -9,15 +9,15 @@ import org.lwjgl.system.CallbackI;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class EditorCamera extends Component{
-    private float dragDebounce = 0.032f;
+    private transient float dragDebounce = 0.032f;
 
     private Camera levelEditorCamera;
-    private Vector2f clickOrigin;
+    private transient Vector2f clickOrigin;
     private boolean reset = false;
-    private float lerpTime = 0.0f;
+    private transient float lerpTime = 0.0f;
 
-    private float dragSens = 30.0f;
-    private float scrollSens = 0.1f;
+    private transient float dragSens = 30.0f;
+    private transient float scrollSens = 0.1f;
 
     public EditorCamera(Camera levelEditorCamera){
         this.levelEditorCamera = levelEditorCamera;
@@ -56,7 +56,7 @@ public class EditorCamera extends Component{
             levelEditorCamera.setZoom(this.levelEditorCamera.getZoom() + ((1.0f - levelEditorCamera.getZoom()) * lerpTime));
             this.lerpTime += 0.1f * dt;
             if(Math.abs(levelEditorCamera.position.x) <= 5.0f && Math.abs(levelEditorCamera.position.y) <= 5.0f){
-                this.lerpTime = 0;
+                this.lerpTime = 0.0f;
                 levelEditorCamera.position.set(0f, 0f);
                 this.levelEditorCamera.setZoom(1.0f);
                 reset = false;

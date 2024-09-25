@@ -2,13 +2,10 @@ package scenes;
 
 
 import Core.*;
-import Physics2D.PhysicsSystem2D;
-import Physics2D.rigidbody.Rigidbody2D;
 import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
-import org.joml.Vector4f;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene {
@@ -22,13 +19,18 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        loadResources();
+        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
+        Spritesheet gizmos = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\gizmos.png");
+
         this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
         levelEditorStuff.addComponent(new EditorCamera(this.camera));
+        levelEditorStuff.addComponent(new GizmoSystem(gizmos));
+        levelEditorStuff.start();
 
-        loadResources();
-        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
+
 
 //        if(levelLoaded){
 //            if(gameObjects.size() > 0){
@@ -41,6 +43,7 @@ public class LevelEditorScene extends Scene {
     private void loadResources(){
         AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
         AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
+        AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\gizmos.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\gizmos.png"), 24,48, 3, 0));
 
         for(GameObject go : gameObjects){
             if(go.getComponent(SpriteRenderer.class) != null){
@@ -77,6 +80,10 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void imgui(){
+        ImGui.begin("Level Editor Stuff");
+        levelEditorStuff.imgui();
+        ImGui.end();
+
         ImGui.begin("Sprites Window");
         ImVec2 windowPos = new ImVec2();
         ImGui.getWindowPos(windowPos);
