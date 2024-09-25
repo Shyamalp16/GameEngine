@@ -10,7 +10,7 @@ public class GizmoSystem extends Component {
 
 
     private Spritesheet gizmos;
-    private int usingGizmo = 0;
+    private transient int usingGizmo = 0;
 
     public GizmoSystem(Spritesheet gizmoSprites){
         gizmos = gizmoSprites;

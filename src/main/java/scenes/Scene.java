@@ -3,6 +3,7 @@ package scenes;
 import Core.Camera;
 import Core.GameObject;
 import Core.GameObjectDeserializer;
+import Core.Transform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import components.Component;
@@ -66,6 +67,13 @@ public abstract class Scene {
 
     public void imgui(){
 
+    }
+
+    public GameObject createGameObject(String name){
+        GameObject go = new GameObject(name);
+        go.addComponent(new Transform());
+        go.transform = go.getComponent(Transform.class);
+        return go;
     }
 
     public void saveExit(){
