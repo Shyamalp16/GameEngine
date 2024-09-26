@@ -10,6 +10,8 @@ src/test/
 src/test/physics2d
 src/test/physics2d/CollisionDetectorTest
 
+src/main/java/Physics2Dtmp
+
 
 
 ### IntelliJ IDEA ###

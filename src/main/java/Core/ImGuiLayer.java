@@ -168,7 +168,7 @@ public class ImGuiLayer {
 //
         // Fonts merge example
         fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF(("D:\\GameEngine\\assets\\fonts\\segoeui.ttf"), 32, fontConfig);
+        fontAtlas.addFontFromFileTTF(("D:\\GameEngine\\assets\\fonts\\segoeui.ttf"), 20, fontConfig);
         fontConfig.destroy(); // After all fonts were added we don't need this config more
 
         // ------------------------------------------------------------
