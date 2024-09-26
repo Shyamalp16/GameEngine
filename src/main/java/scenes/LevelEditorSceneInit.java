@@ -8,30 +8,25 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 import util.AssetPool;
 
-public class LevelEditorScene extends Scene {
+public class LevelEditorSceneInit extends SceneInit {
     private Spritesheet sprites;
+    private GameObject levelEditorStuff;
 
-    GameObject levelEditorStuff = this.createGameObject("LevelEditor");
-
-    public LevelEditorScene(){
+    public LevelEditorSceneInit(){
 
     }
 
     @Override
-    public void init() {
-        loadResources();
+    public void init(Scene scene) {
         sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
         Spritesheet gizmos = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\gizmos.png");
-
-        this.camera = new Camera(new Vector2f(new Vector2f(-250, 0)));
+        levelEditorStuff = scene.createGameObject("LevelEditor");
+        levelEditorStuff.setNoSerialize();
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
-        levelEditorStuff.addComponent(new EditorCamera(this.camera));
+        levelEditorStuff.addComponent(new EditorCamera(scene.camera()));
         levelEditorStuff.addComponent(new GizmoSystem(gizmos));
-        levelEditorStuff.start();
-
-
-
+        scene.addGameObjectToScene(levelEditorStuff);
 //        if(levelLoaded){
 //            if(gameObjects.size() > 0){
 //                this.activeGameObject = gameObjects.get(0);
@@ -40,12 +35,13 @@ public class LevelEditorScene extends Scene {
 //        sprites = AssetPool.getSpritesheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png");
     }
 
-    private void loadResources(){
+    @Override
+    public void loadResources(Scene scene){
         AssetPool.getShader("D:\\GameEngine\\assets\\shaders\\default.glsl");
         AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\decorationsAndBlocks.png"), 16, 16, 81, 0 ));
         AssetPool.addSpriteSheet("D:\\GameEngine\\assets\\images\\gizmos.png", new Spritesheet(AssetPool.getTexture("D:\\GameEngine\\assets\\images\\gizmos.png"), 24,48, 3, 0));
 
-        for(GameObject go : gameObjects){
+        for(GameObject go : scene.getGameObjects()){
             if(go.getComponent(SpriteRenderer.class) != null){
                 SpriteRenderer spr = go.getComponent(SpriteRenderer.class);
                 if(spr.getTexture() != null){
@@ -53,29 +49,6 @@ public class LevelEditorScene extends Scene {
                 }
             }
         }
-    }
-
-    float x = 0.0f;
-    float y = 0.0f;
-    @Override
-    public void update(float dt) {
-//        System.out.println("FPS " + (1.0f/dt));
-        levelEditorStuff.update(dt);
-        this.camera.adjustProjection();
-
-        for(GameObject go : this.gameObjects){
-            go.update(dt);
-        }
-
-//        DebugDraw.addCircle2D(obj1.position, 10.0f, new Vector3f(1,0,0), 1);
-//        DebugDraw.addCircle2D(obj2.position, 20.0f, new Vector3f(0,1,0), 1);
-//        DebugDraw.addCircle2D(obj3.position, 20.0f, new Vector3f(0,0,1), 1);
-//        physics.update(dt);
-    }
-
-    @Override
-    public void render(){
-        this.renderer.render();
     }
 
     @Override

@@ -9,7 +9,7 @@ public class ScaleGizmo extends Gizmo {
     }
 
     @Override
-    public void update(float dt){
+    public void EditorUpdate(float dt){
         if(activeGameObject != null){
             if(xAxisActive  && !yAxisActive){
                 activeGameObject.transform.scale.x -= MouseListener.getWorldDx();

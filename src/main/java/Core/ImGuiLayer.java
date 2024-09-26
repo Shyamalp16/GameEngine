@@ -1,6 +1,7 @@
 package Core;
 
 import engine.GameViewWindow;
+import engine.MenuBar;
 import engine.PropertiesWindow;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
@@ -14,6 +15,8 @@ import imgui.type.ImBoolean;
 import renderer.PickingTexture;
 import scenes.Scene;
 
+import java.awt.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
@@ -22,11 +25,13 @@ public class ImGuiLayer {
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private GameViewWindow gameViewWindow;
     private PropertiesWindow propertiesWindow;
+    private MenuBar menuBar;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture){
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
+        this.menuBar = new MenuBar();
     }
 
     public void initImGui() {
@@ -191,6 +196,7 @@ public class ImGuiLayer {
         gameViewWindow.imgui();
         propertiesWindow.update(dt, currentScene);
         propertiesWindow.imgui();
+        menuBar.imgui();
         ImGui.end();
         ImGui.render();
 
@@ -247,5 +253,4 @@ public class ImGuiLayer {
     public PropertiesWindow getPropertiesWindow(){
         return this.propertiesWindow;
     }
-
 }

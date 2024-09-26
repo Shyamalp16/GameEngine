@@ -56,9 +56,15 @@ public class Gizmo extends Component{
         this.yAxisObject.setNoSerialize();
     }
 
-
     @Override
     public void update(float dt){
+        if(using){
+            this.setInactive();
+        }
+    }
+
+    @Override
+    public void EditorUpdate(float dt){
         if(!using){
             return;
         }

@@ -10,6 +10,7 @@ public class GameObject {
     private static int ID_COUNTER = 0;
     private int uid = -1;
     private boolean doSerialization = true;
+    private boolean isDead = false;
 
     private String name;
     private List<Component> components;
@@ -58,6 +59,12 @@ public class GameObject {
         }
     }
 
+    public void EditorUpdate(float dt){
+        for(int i=0; i < components.size(); i++){
+            components.get(i).EditorUpdate(dt);
+        }
+    }
+
     public void start(){
         for(int i=0; i < components.size(); i++){
             components.get(i).start();
@@ -73,6 +80,17 @@ public class GameObject {
 
     public static void init(int maxId) {
         ID_COUNTER = maxId;
+    }
+
+    public void destroy(){
+        this.isDead = true;
+        for(int i = 0; i < components.size(); i++){
+            components.get(i).destroy();
+        }
+    }
+
+    public boolean isDead(){
+        return this.isDead;
     }
 
     public int getUid() {

@@ -1,5 +1,6 @@
 package renderer;
 
+import Core.GameObject;
 import Core.Window;
 import components.SpriteRenderer;
 import org.jetbrains.annotations.NotNull;
@@ -264,5 +265,20 @@ public class RenderBatch implements Comparable<RenderBatch> {
     @Override
     public int compareTo(@NotNull RenderBatch o) {
         return Integer.compare(this.zIndex, o.getZIndex());
+    }
+
+    public boolean destroyIfExists(GameObject go){
+        SpriteRenderer sprite = go.getComponent(SpriteRenderer.class);
+        for(int i = 0; i < numSprites; i++){
+            if(sprites[i] == sprite){
+                for(int j = i; j < numSprites - 1; j++){
+                    sprites[j] = sprites[j+1];
+                    sprites[j].setDirty();
+                }
+                numSprites--;
+                return true;
+            }
+        }
+        return false;
     }
 };

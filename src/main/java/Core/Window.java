@@ -7,9 +7,9 @@ import Observers.events.EventType;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import renderer.*;
-import scenes.LevelEditorScene;
-import scenes.LevelScene;
+import scenes.LevelEditorSceneInit;
 import scenes.Scene;
+import scenes.SceneInit;
 import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -33,6 +33,7 @@ public class Window implements Observer {
 //    Singleton instance
     public static Window window = null;
     private static Scene CurrentScene;
+    private boolean runtimePlay = false;
 
 //  Private cause ion any  anyone else to call this class
     private Window(){
@@ -42,19 +43,14 @@ public class Window implements Observer {
         EventSystem.addObserver(this);
     }
 
-    public static void changeScene(int newScene){
-//        Scene changer!!
-        switch(newScene){
-            case 0:
-                CurrentScene = new LevelEditorScene();
-                break;
-            case 1:
-                CurrentScene = new LevelScene();
-                break;
-            default:
-                assert false: "Unknown Scene" + newScene + "!";
-                break;
+    public static void changeScene(SceneInit sceneInit){
+        if(CurrentScene != null){
+            CurrentScene.destroy();
         }
+
+        getImGuiLayer().getPropertiesWindow().setActiveGameObject(null);
+
+        CurrentScene = new Scene(sceneInit);
         CurrentScene.load();
         CurrentScene.init();
         CurrentScene.start();
@@ -144,7 +140,7 @@ public class Window implements Observer {
         this.imGuiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imGuiLayer.initImGui();
 
-        Window.changeScene(0);
+        Window.changeScene(new LevelEditorSceneInit());
     }
 
 //      GAME LOOP
@@ -188,7 +184,11 @@ public class Window implements Observer {
             if(dt >= 0){
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
-                CurrentScene.update(dt);
+                if(runtimePlay){
+                    CurrentScene.update(dt);
+                }else{
+                    CurrentScene.EditorUpdate(dt);
+                }
                 CurrentScene.render();
             }
             this.frameBuffer.unbind();
@@ -202,7 +202,7 @@ public class Window implements Observer {
             beginTime = endTime;
         }
 
-        CurrentScene.saveExit();
+//        CurrentScene.save();
     }
 
     public static int getWidth(){
@@ -235,10 +235,22 @@ public class Window implements Observer {
 
     @Override
     public void onNotify(GameObject go, Event event){
-        if(event.type == EventType.GameEngineStartPlay){
-            System.out.println("Start Pressed");
-        }else if(event.type == EventType.GameEngineStopPlay){
-            System.out.println("Stop Pressed");
+        switch(event.type){
+            case GameEngineStartPlay:
+                this.runtimePlay = true;
+                CurrentScene.save();
+                Window.changeScene(new LevelEditorSceneInit());
+                break;
+            case GameEngineStopPlay:
+                this.runtimePlay = false;
+                Window.changeScene(new LevelEditorSceneInit());
+                break;
+            case SaveLevel:
+                CurrentScene.save();
+                break;
+            case LoadLevel:
+                Window.changeScene(new LevelEditorSceneInit());
+                break;
         }
     }
 }

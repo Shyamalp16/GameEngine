@@ -17,13 +17,13 @@ public class GizmoSystem extends Component {
     }
 
     @Override
-    public void start(){
+        public void start(){
         gameObject.addComponent(new TranslateGizmo(gizmos.getSprite(1), Window.getImGuiLayer().getPropertiesWindow()));
         gameObject.addComponent(new ScaleGizmo(gizmos.getSprite(2), Window.getImGuiLayer().getPropertiesWindow()));
     }
 
     @Override
-    public void update(float dt){
+    public void EditorUpdate(float dt){
         if(usingGizmo == 0){
             gameObject.getComponent(TranslateGizmo.class).setUsing();
             gameObject.getComponent(ScaleGizmo.class).setNotUsing();
