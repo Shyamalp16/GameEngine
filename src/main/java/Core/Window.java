@@ -1,7 +1,9 @@
 package Core;
 
-import imgui.ImGui;
-import org.lwjgl.Version;
+import Observers.EventSystem;
+import Observers.Observer;
+import Observers.events.Event;
+import Observers.events.EventType;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import renderer.*;
@@ -16,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Window {
+public class Window implements Observer {
     private int width;
     private int height;
     private final String title;
@@ -28,11 +30,6 @@ public class Window {
     private Shader defaultShader;
     private Shader pickingShader;
 
-    public float r;
-    public float g;
-    public float b;
-    public float a;
-
 //    Singleton instance
     public static Window window = null;
     private static Scene CurrentScene;
@@ -42,10 +39,7 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Contra!";
-        r=1;
-        g=1;
-        b=1;
-        a=1;
+        EventSystem.addObserver(this);
     }
 
     public static void changeScene(int newScene){
@@ -188,7 +182,7 @@ public class Window {
             glEnable(GL_BLEND);
             DebugDraw.beginFrame();
             this.frameBuffer.bind();
-            glClearColor(r,g,b,a);
+            glClearColor(1,1,1,1);
             glClear(GL_COLOR_BUFFER_BIT);
 
             if(dt >= 0){
@@ -237,5 +231,14 @@ public class Window {
 
     public static ImGuiLayer getImGuiLayer(){
         return get().imGuiLayer;
+    }
+
+    @Override
+    public void onNotify(GameObject go, Event event){
+        if(event.type == EventType.GameEngineStartPlay){
+            System.out.println("Start Pressed");
+        }else if(event.type == EventType.GameEngineStopPlay){
+            System.out.println("Stop Pressed");
+        }
     }
 }
