@@ -19,6 +19,7 @@ public class Physics2D {
 
     private float physicsTime = 0.0f;
     private float physiceTimeStep = 1.0f / 60.0f;
+
     private int velocityIterations = 8;
     private int positionIterations = 3;
 
@@ -48,7 +49,7 @@ public class Physics2D {
                 shape.setRadius(circleCollider.getRadius());
             }else if((boxCollider = go.getComponent(Box2dCollider.class)) != null){
                 Vector2f halfSize = new Vector2f(boxCollider.getHalfSize()).mul(0.5f);
-                Vector2f offset = boxCollider.getOffset();
+                Vector2f offset = boxCollider. getOffset();
                 Vector2f origin = new Vector2f(boxCollider.getOrigin());
                 shape.setAsBox(halfSize.x, halfSize.y, new Vec2(origin.x, origin.y), 0);
 
@@ -66,7 +67,7 @@ public class Physics2D {
 
     public void update(float dt){
         physicsTime += dt;
-        if(physicsTime >= 0){
+        if(physicsTime >= 0.0f){
             physicsTime -= physiceTimeStep;
             world.step(physiceTimeStep, velocityIterations, positionIterations);
         }

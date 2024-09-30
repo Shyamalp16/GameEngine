@@ -35,13 +35,13 @@ public class CImGui {
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.9f,0.2f,0.2f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.8f,0.1f,0.15f, 1.0f);
         if(ImGui.button("X", buttonSize.x, buttonSize.y)){
-            values.x = resetValue;
+            values.x = 0.25f;
         }
         ImGui.popStyleColor(3);
 
         ImGui.sameLine();
         float[] vecValuesX = {values.x};
-        ImGui.dragFloat("##x", vecValuesX, 0.5f);
+        ImGui.dragFloat("##x", vecValuesX, 0.25f);
         ImGui.popItemWidth();
         ImGui.sameLine();
 
@@ -50,7 +50,7 @@ public class CImGui {
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.3f,0.8f,0.3f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.2f,0.7f,0.2f, 1.0f);
         if(ImGui.button("Y", buttonSize.x, buttonSize.y)){
-            values.y = resetValue;
+            values.y = 0.25f;
         }
         ImGui.popStyleColor(3);
 
