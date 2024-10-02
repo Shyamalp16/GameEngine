@@ -18,7 +18,7 @@ public class GameObject {
     private boolean doSerialization = true;
     private boolean isDead = false;
 
-    private String name;
+    public String name;
     private List<Component> components;
 
     public transient Transform transform;

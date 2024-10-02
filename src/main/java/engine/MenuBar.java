@@ -8,7 +8,7 @@ import imgui.ImGui;
 public class MenuBar {
 
     public void imgui(){
-        ImGui.beginMainMenuBar();
+        ImGui.beginMenuBar();
         if(ImGui.beginMenu("File")){
             if(ImGui.menuItem("Save", "Ctrl+S")){
                 EventSystem.notify(null, new Event(EventType.SaveLevel));
@@ -19,6 +19,6 @@ public class MenuBar {
             }
             ImGui.endMenu();
         }
-        ImGui.endMainMenuBar();
+        ImGui.endMenuBar();
     }
 }

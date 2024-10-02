@@ -3,7 +3,6 @@ package Core;
 import Observers.EventSystem;
 import Observers.Observer;
 import Observers.events.Event;
-import Observers.events.EventType;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import renderer.*;
