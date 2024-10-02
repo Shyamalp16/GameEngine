@@ -27,6 +27,9 @@ public class MouseControls extends Component{
 
     public void place(){
         GameObject newobj = this.holdingObject.copy();
+        if(newobj.getComponent(StateMachine.class) != null){
+            newobj.getComponent(StateMachine.class).refreshTextures();
+        }
         newobj.getComponent(SpriteRenderer.class).setColor(new Vector4f(1,1,1,1));
         newobj.removeComponent(NonPickable.class);
         Window.getScene().addGameObjectToScene(newobj);

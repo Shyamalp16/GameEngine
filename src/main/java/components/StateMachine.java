@@ -10,74 +10,92 @@ import java.util.List;
 import java.util.Objects;
 
 public class StateMachine extends Component{
-    private class stateTrigger{
-        public String trigger;
+    private class StateTrigger {
         public String state;
+        public String trigger;
 
-        public stateTrigger(){
+        public StateTrigger() {}
 
-        }
-
-        public stateTrigger(String state, String trigger){
+        public StateTrigger(String state, String trigger) {
             this.state = state;
             this.trigger = trigger;
         }
 
         @Override
-        public boolean equals(Object o){
-            if(o.getClass() != stateTrigger.class){
-                return false;
-            }
-            stateTrigger t2 = (stateTrigger) o;
+        public boolean equals(Object o) {
+            if (o.getClass() != StateTrigger.class) return false;
+            StateTrigger t2 = (StateTrigger)o;
             return t2.trigger.equals(this.trigger) && t2.state.equals(this.state);
         }
 
         @Override
-        public int hashCode(){
-            return Objects.hash(trigger,state);
+        public int hashCode() {
+            return Objects.hash(state, trigger);
         }
     }
 
-    public HashMap<stateTrigger, String> stateTransfers = new HashMap<>();
+    public HashMap<StateTrigger, String> stateTransfers = new HashMap<>();
     private List<AnimationState> states = new ArrayList<>();
     private transient AnimationState currentState = null;
-    private String defaultStringTitle = "";
+    private String defaultStateTitle = "";
 
-    public void addStateTrigger(String from, String to, String onTrigger){
-        this.stateTransfers.put(new stateTrigger(from, onTrigger), to);
+    public void refreshTextures() {
+        for (AnimationState state : states) {
+            state.refreshTextures();
+        }
     }
 
-    public void addState(AnimationState state){
+    public void addStateTrigger(String from, String to, String onTrigger){
+        this.stateTransfers.put(new StateTrigger(from, onTrigger), to);
+    }
+
+    public void addState(AnimationState state) {
         this.states.add(state);
     }
 
-    public void trigger(String trigger){
-        for(stateTrigger s : stateTransfers.keySet()){
-            if(s.state.equals(currentState.title) && s.trigger.equals(trigger)){
-                if(stateTransfers.get(s) != null){
-                    int newStateIndex = -1;
-                    int index = 0;
-                    for(AnimationState st : states){
-                        if(st.title.equals(stateTransfers.get(s))){
-                            newStateIndex = index;
-                            break;
-                        }
-                        index++;
-                    }
-                    if(newStateIndex > -1){
+    public void setDefaultState(String animationTitle) {
+        for (AnimationState state : states) {
+            if (state.title.equals(animationTitle)) {
+                defaultStateTitle = animationTitle;
+                if (currentState == null) {
+                    currentState = state;
+                }
+                return;
+            }
+        }
+        System.out.println("Unable to find default state '" + animationTitle + "'");
+    }
+
+
+    public void trigger(String trigger) {
+        for (StateTrigger state : stateTransfers.keySet()) {
+            if (state.state.equals(currentState.title) && state.trigger.equals(trigger)) {
+                if (stateTransfers.get(state) != null) {
+                    int newStateIndex = stateIndexOf(stateTransfers.get(state));
+                    if (newStateIndex > -1) {
                         currentState = states.get(newStateIndex);
                     }
                 }
                 return;
             }
         }
-        System.out.println("Unable to find trigger " + trigger);
+    }
+
+    private int stateIndexOf(String stateTitle) {
+        int index = 0;
+        for (AnimationState state : states) {
+            if (state.title.equals(stateTitle)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
 
     @Override
-    public void start(){
-        for(AnimationState state : states){
-            if(state.title.equals(defaultStringTitle)){
+    public void start() {
+        for (AnimationState state : states) {
+            if (state.title.equals(defaultStateTitle)) {
                 currentState = state;
                 break;
             }
@@ -85,23 +103,25 @@ public class StateMachine extends Component{
     }
 
     @Override
-    public void update(float dt){
-        if(currentState != null){
+    public void update(float dt) {
+        if (currentState != null) {
             currentState.update(dt);
             SpriteRenderer sprite = gameObject.getComponent(SpriteRenderer.class);
-            if(sprite != null){
+            if (sprite != null) {
                 sprite.setSprite(currentState.getCurrentSprite());
+                sprite.setTexture(currentState.getCurrentSprite().getTexture());
             }
         }
     }
 
     @Override
-    public void EditorUpdate(float dt){
-        if(currentState != null){
+    public void EditorUpdate(float dt) {
+        if (currentState != null) {
             currentState.update(dt);
             SpriteRenderer sprite = gameObject.getComponent(SpriteRenderer.class);
-            if(sprite != null){
+            if (sprite != null) {
                 sprite.setSprite(currentState.getCurrentSprite());
+                sprite.setTexture(currentState.getCurrentSprite().getTexture());
             }
         }
     }
